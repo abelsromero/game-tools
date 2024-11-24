@@ -1,0 +1,14 @@
+= Notes
+
+* Storage drives:
+
+** default location: $HOME/.local/share/Steam
+** {storage}/steamapps/libraryfolders.vdf: metadata for folders ("path")
+/media/cmp600pro1/games/steam
+
+* Game paths:
+
+** {storage}/steamapps
+*** appmanifest_{id}.acf: metadata file ("appid", "name")
+*** common: install directories for games (with left-overs)
+*** compdata: WINE prefixes

@@ -1,0 +1,8 @@
+= Game tools for personal use
+
+A set of tools to handle game related stuff.
+
+Current goals:
+
+* Handle Linux Steam game files: uninstalling games leave behind folders (install and WINE prefixes) that need manual action.
+On top of that, this is more complicated if you have multiple steam storage drives.

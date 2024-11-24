@@ -1,0 +1,28 @@
+plugins {
+    id 'base'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation(platform('org.junit:junit-bom:5.11.3'))
+        testImplementation('org.junit.jupiter:junit-jupiter')
+        testImplementation 'org.assertj:assertj-core:3.26.3'
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+}

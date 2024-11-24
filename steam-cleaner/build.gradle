@@ -1,0 +1,11 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation 'info.picocli:picocli:4.7.6'
+}
+
+application {
+    mainClass = 'org.gametools.cleaner.App'
+}
