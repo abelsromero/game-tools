@@ -3,7 +3,6 @@ package org.gametools.utilities;
 import org.gametools.testing.ClasspathResource;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +12,7 @@ class VdfParserTest {
     final VdfParser parser = new VdfParser();
 
     @Test
-    void should_parse_libraryfolder_file() throws IOException {
+    void should_parse_libraryfolder_file() {
         final String filePath = ClasspathResource.absolutePath("libraryfolders.vdf");
 
         final VdfFile file = parser.parse(filePath);
@@ -44,7 +43,7 @@ class VdfParserTest {
     }
 
     @Test
-    void should_parse_appmanifest_file() throws IOException {
+    void should_parse_appmanifest_file() {
         final String filePath = ClasspathResource.absolutePath("appmanifest_22380.acf");
 
         final VdfFile file = parser.parse(filePath);
