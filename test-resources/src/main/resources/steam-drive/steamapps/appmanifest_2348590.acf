@@ -1,0 +1,37 @@
+"AppState"
+{
+	"appid"		"2348590"
+	"Universe"		"1"
+	"name"		"Proton 8.0"
+	"StateFlags"		"4"
+	"installdir"		"Proton 8.0"
+	"LastUpdated"		"1732128182"
+	"LastPlayed"		"0"
+	"SizeOnDisk"		"1224816562"
+	"StagingSize"		"0"
+	"buildid"		"16369234"
+	"LastOwner"		"1234567890"
+	"UpdateResult"		"0"
+	"BytesToDownload"		"1080096"
+	"BytesDownloaded"		"1080096"
+	"BytesToStage"		"1224681369"
+	"BytesStaged"		"1224681369"
+	"TargetBuildID"		"16369234"
+	"AutoUpdateBehavior"		"0"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"2348591"
+		{
+			"manifest"		"3543437524279407085"
+			"size"		"1224816562"
+		}
+	}
+	"UserConfig"
+	{
+	}
+	"MountedConfig"
+	{
+	}
+}
