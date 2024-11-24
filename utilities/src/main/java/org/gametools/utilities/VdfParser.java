@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 public class VdfParser {
 
-    public VdfFile parse(String filePath) throws IOException {
+    public VdfFile parse(String filePath) {
 
         final Stack<Entry> parents = new Stack<>();
         Entry currentEntry = null;
@@ -60,6 +60,8 @@ public class VdfParser {
                 lineIndex++;
             }
             return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

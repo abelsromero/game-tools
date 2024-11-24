@@ -3,7 +3,10 @@ plugins {
 }
 
 dependencies {
+    implementation project(':utilities')
     implementation 'info.picocli:picocli:4.7.6'
+
+    testImplementation project(':test-resources')
 }
 
 application {
