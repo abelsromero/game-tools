@@ -1,5 +1,6 @@
 package org.gametools.utilities;
 
+import org.gametools.testing.ClasspathResource;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ class VdfParserTest {
 
     @Test
     void should_parse_libraryfolder_file() throws IOException {
-        final String filePath = findTestFile("libraryfolders.vdf");
+        final String filePath = ClasspathResource.absolutePath("libraryfolders.vdf");
 
         final VdfFile file = parser.parse(filePath);
 
@@ -44,7 +45,7 @@ class VdfParserTest {
 
     @Test
     void should_parse_appmanifest_file() throws IOException {
-        final String filePath = findTestFile("appmanifest_22380.acf");
+        final String filePath = ClasspathResource.absolutePath("appmanifest_22380.acf");
 
         final VdfFile file = parser.parse(filePath);
 
@@ -96,10 +97,6 @@ class VdfParserTest {
         );
         assertThat((Map<String, String>) appState.get("UserConfig")).containsExactlyInAnyOrderEntriesOf(expectedEntries);
         assertThat((Map<String, String>) appState.get("MountedConfig")).containsExactlyInAnyOrderEntriesOf(expectedEntries);
-
     }
 
-    private static String findTestFile(String name) {
-        return VdfParserTest.class.getClassLoader().getResource(name).getFile();
-    }
 }

@@ -1,1 +1,6 @@
-include('steam-cleaner', 'list', 'utilities')
+include(
+    'list',
+    'steam-cleaner',
+    'test-resources',
+    'utilities'
+)

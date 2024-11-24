@@ -1,8 +1,10 @@
 package org.gametools.utilities;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -17,7 +19,7 @@ public class VdfParser {
         final Stack<Entry> parents = new Stack<>();
         Entry currentEntry = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = buildBufferedReader(filePath)) {
             String line;
             int lineIndex = 0;
 
@@ -34,7 +36,7 @@ public class VdfParser {
                 }
 
                 if (line.startsWith("{")) {
-                    // nothing to do
+                    continue;
                 } else if (line.startsWith("}")) {
                     if (parents.isEmpty()) {
                         // root
@@ -51,13 +53,38 @@ public class VdfParser {
                         currentEntry.key = stripQuotes(line);
                     } else {
                         Pair split = splitQuotes(line);
-                        if (split.value().length() != 0)
+                        if (!split.value().isEmpty())
                             currentEntry.properties.put(split.key(), split.value());
                     }
                 }
                 lineIndex++;
             }
             return null;
+        }
+    }
+
+    private static BufferedReader buildBufferedReader(String filePath) {
+        return new BufferedReader(buildReader(filePath));
+    }
+
+    private static Reader buildReader(String filePath) {
+        try {
+            if (filePath.contains(".jar!/")) {
+                String path = filePath.startsWith("jar:") ? filePath : "jar:" + filePath;
+                return new InputStreamReader(url(path).openStream());
+            } else {
+                return new FileReader(filePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static URL url(String filePath) {
+        try {
+            return new URI(filePath).toURL();
+        } catch (URISyntaxException | MalformedURLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,7 +115,7 @@ public class VdfParser {
         return new Pair(line.substring(startKey, endKey), line.substring(startValue, endValue));
     }
 
-    private class Entry {
+    private static class Entry {
         String key;
         Map<String, Object> properties = new HashMap<>();
     }
