@@ -2,4 +2,6 @@
 
 dependencies {
 
+    testImplementation project(':test-resources')
+
 }
