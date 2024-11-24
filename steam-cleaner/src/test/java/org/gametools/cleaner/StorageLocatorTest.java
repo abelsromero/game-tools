@@ -1,17 +1,17 @@
 package org.gametools.cleaner;
 
-import org.gametools.testing.ClasspathResource;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.gametools.testing.TestResource.fromClasspath;
 
 class StorageLocatorTest {
 
     @Test
     void should_return_storage_drives() {
-        final String libraryFile = ClasspathResource.absolutePath("libraryfolders.vdf");
+        final String libraryFile = fromClasspath("libraryfolders.vdf");
         final StorageLocator storageLocator = new StorageLocator(libraryFile);
 
         List<StorageDrive> drives = storageLocator.getDrives();

@@ -4,7 +4,7 @@
 	{
 		"path"		"/home/user/.local/share/Steam"
 		"label"		""
-		"contentid"		"4045068656370636118"
+		"contentid"		"1234567890"
 		"totalsize"		"0"
 		"update_clean_bytes_tally"		"725454019"
 		"time_last_update_verified"		"1732297532"
@@ -20,7 +20,7 @@
 	{
 		"path"		"/media/drive/games/steam"
 		"label"		""
-		"contentid"		"8503444600347972086"
+		"contentid"		"1234567890"
 		"totalsize"		"983358451712"
 		"update_clean_bytes_tally"		"2148103204"
 		"time_last_update_verified"		"1731758550"

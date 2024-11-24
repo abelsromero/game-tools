@@ -1,0 +1,39 @@
+"AppState"
+{
+	"appid"		"2373630"
+	"Universe"		"1"
+	"name"		"Moonring"
+	"StateFlags"		"4"
+	"installdir"		"Moonring"
+	"LastUpdated"		"1702846777"
+	"LastPlayed"		"1710271833"
+	"SizeOnDisk"		"156636781"
+	"StagingSize"		"0"
+	"buildid"		"12966205"
+	"LastOwner"		"1234567890"
+	"UpdateResult"		"0"
+	"BytesToDownload"		"0"
+	"BytesDownloaded"		"0"
+	"BytesToStage"		"145004546"
+	"BytesStaged"		"145004546"
+	"TargetBuildID"		"12966205"
+	"AutoUpdateBehavior"		"0"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"2373631"
+		{
+			"manifest"		"6941033254675070331"
+			"size"		"156636781"
+		}
+	}
+	"UserConfig"
+	{
+		"language"		"english"
+	}
+	"MountedConfig"
+	{
+		"language"		"english"
+	}
+}
