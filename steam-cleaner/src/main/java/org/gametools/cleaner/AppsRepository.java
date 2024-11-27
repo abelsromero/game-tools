@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+// TODO make CompositeAppRepository to handle multiple repositories together
 class AppsRepository {
 
     private static final String APPS_DIR = "steamapps";
 
     private static final String INSTALL_DIR = "common";
-    private static final String COMP_DATA_DIR = "compatdata";
+    private static final String COMPAT_DATA_DIR = "compatdata";
 
     private final Path appsRoot;
 
@@ -22,19 +23,42 @@ class AppsRepository {
         this.appsRoot = Path.of(path).resolve(APPS_DIR);
     }
 
-    List<App> getApps() {
+    public List<App> getApps() {
         final VdfParser parser = new VdfParser();
 
-        return listFiles(appsRoot)
-            .filter(path -> path.toString().endsWith(".acf") && !path.toFile().isDirectory())
+        return installedAppsManifests()
             .map(path -> parser.parse(path.toString()))
             .map(vdfFile -> {
                 Map<String, String> appState = (Map<String, String>) vdfFile.properties().get("AppState");
-                Integer appid = Integer.valueOf(appState.get("appid"));
-                String name = appState.get("name");
-                String installdir = appState.get("installdir");
-                return new App(appid, name, installdir);
+                return new App(
+                    Integer.valueOf(appState.get("appid")),
+                    appState.get("name"),
+                    appState.get("installdir")
+                );
             })
+            .toList();
+    }
+
+    private Stream<Path> installedAppsManifests() {
+        return listFiles(appsRoot)
+            .filter(path -> path.toString().endsWith(".acf") && !path.toFile().isDirectory());
+    }
+
+    /**
+     * Paths that do not match any appmanifest in the storage.
+     */
+    public List<Path> findOrphanCompatdata() {
+        // No other folders are expected
+        final List<String> appIds = installedAppsManifests()
+            .map(path -> {
+                String filename = path.getFileName().toString();
+                return filename.substring(filename.lastIndexOf('_') + 1, filename.length() - 4);
+            })
+            .toList();
+
+        return listFiles(appsRoot.resolve(COMPAT_DATA_DIR))
+            .filter(path -> path.toFile().isDirectory())
+            .filter(path -> !appIds.contains(path.getFileName().toString()))
             .toList();
     }
 
@@ -49,5 +73,4 @@ class AppsRepository {
 }
 
 record App(Integer id, String name, String installDir) {
-
 }

@@ -1,8 +1,10 @@
 package org.gametools.cleaner;
 
+import org.gametools.testing.TestLibraryTemplate;
 import org.gametools.testing.TestResource;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +16,8 @@ class AppsRepositoryTest {
         final String storageDrive = TestResource.fromFile("steam-drive");
 
         // TODO inject StorageLocator to mock it?
-        AppsRepository appsRepository = new AppsRepository(storageDrive);
-
-        List<App> apps = appsRepository.getApps();
+        AppsRepository repository = new AppsRepository(storageDrive);
+        List<App> apps = repository.getApps();
 
         assertThat(apps).containsExactlyInAnyOrder(
             new App(1070560, "Steam Linux Runtime 1.0 (scout)", "SteamLinuxRuntime"),
@@ -28,4 +29,33 @@ class AppsRepositoryTest {
             new App(578650, "The Outer Worlds", "TheOuterWorlds")
         );
     }
+
+    // notes: seems linux and win uninstalling cleans install and compatdata
+    @Test
+    void should_return_orphans() {
+        final var storeDrive = new TestLibraryTemplate(TestResource.fromFile("steam-drive"))
+            .create()
+            .addCompadata(42)
+            .addCompadata(46)
+            .addCompadata(24)
+            .addCompadata(64)
+            .get();
+
+        AppsRepository repository = new AppsRepository(storeDrive.root());
+        List<Path> paths = repository.findOrphanCompatdata();
+
+        final Path expectedCompatdata = storeDrive.compatdata();
+        assertThat(paths)
+            .containsExactlyInAnyOrder(
+                resolve(expectedCompatdata, 42),
+                resolve(expectedCompatdata, 46),
+                resolve(expectedCompatdata, 24),
+                resolve(expectedCompatdata, 64)
+            );
+    }
+
+    private static Path resolve(Path basePath, int appId) {
+        return basePath.resolve(Integer.toString(appId));
+    }
+
 }
