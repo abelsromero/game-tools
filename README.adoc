@@ -6,3 +6,12 @@ Current goals:
 
 * Handle Linux Steam game files: uninstalling games leave behind folders (install and WINE prefixes) that need manual action.
 On top of that, this is more complicated if you have multiple steam storage drives.
+
+== Building and installing a distribution
+
+ ./gradlew :steam-cleaner:installDist
+
+The task will:
+
+* build and install the bootstrap scripts and libraries in `${HOME}/.local/bin/game-tools-0.0.1-dev`.
+* add 'steam_cleaner' to PATH

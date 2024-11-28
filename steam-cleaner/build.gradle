@@ -10,5 +10,19 @@ dependencies {
 }
 
 application {
-    mainClass = 'org.gametools.cleaner.App'
+    mainClass = 'org.gametools.cleaner.Runner'
+}
+
+String installationDirectory() {
+    "${System.getProperty('user.home')}/.local/bin/game-tools-${version}"
+}
+
+tasks.named('installDist') {
+    dependsOn 'linkInstallation'
+    into installationDirectory()
+}
+
+tasks.register('linkInstallation', Exec) {
+    def installDir = installationDirectory()
+    commandLine 'ln', '-s', "${installDir}/bin/${project.name}", "${file(installDir).parent}/steam_cleaner"
 }
