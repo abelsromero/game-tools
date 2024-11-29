@@ -3,7 +3,12 @@
  */
 package org.gametools.cleaner;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +20,60 @@ public class Runner {
     // Storage Drives' index
     public static final String LIBRARY_FOLDERS = "libraryfolders.vdf";
 
+    public static class GeneralOptions {
+
+        @Parameter(names = {"-h", "--help", "?", "help"}, help = true)
+        public boolean help;
+
+        @Parameter(names = {"version"})
+        public boolean version;
+
+        @Parameter(names = {"build-version"})
+        public boolean buildVersion;
+
+        @Parameter(names = {"login"})
+        public boolean login;
+    }
+
+    @Parameters(commandDescription = "Projects commands")
+    static class Subject {
+        @Parameter
+        private List<String> parameters = new ArrayList<>();
+    }
+
     public static void main(String[] args) {
+        GeneralOptions generalOptions = new GeneralOptions();
+        final JCommander jc = new JCommander(generalOptions);
+
+
+        Subject subject = new Subject();
+        Subject subjectId = new Subject();
+        jc.addCommand("get", subject);
+        jc.addCommand("list", subject);
+
+        final JCommander getCommand = jc.getCommands().get("get");
+        getCommand.addCommand("app", subjectId);
+        getCommand.addCommand("apps", subjectId);
+
+        jc.parse(args);
+
+        System.out.println(generalOptions.help);
+        System.out.println(subject.parameters);
+        System.out.println(subjectId.parameters);
+
+
+        // entities: libraries, apps, prefixes
+
+        //  steam-cleaner list libraries
+        //  steam-cleaner list apps (column with library)
+        //  steam-cleaner list prefixes (column with library)
+
+        // steam-cleaner get library [library-index]
+        // steam-cleaner get prefix [app-id]
+
+        // seam-cleaner delete prefix [app-id]
+
+
         String homePath = System.getProperty("user.home");
         Path defaultInstallation = Path.of(homePath).resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
 
