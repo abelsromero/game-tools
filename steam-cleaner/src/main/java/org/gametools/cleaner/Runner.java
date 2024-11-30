@@ -16,6 +16,30 @@ public class Runner {
     public static final String LIBRARY_FOLDERS = "libraryfolders.vdf";
 
     public static void main(String[] args) {
+
+        final ArgsParser argsParser = new ArgsParser();
+
+        Action action = argsParser.parse(args);
+
+        if (action == null) {
+            argsParser.printUsage();
+        }
+        System.out.println("Command read: %s,%s".formatted(action.command(), action.subCommand()));
+        System.out.println("\n");
+
+        // entities: libraries, apps, prefixes
+
+        //  steam-cleaner list libraries
+        //  steam-cleaner list apps (column with library)
+        //  steam-cleaner list prefixes (column with library)
+
+        // steam-cleaner get apps [library-index]
+        // steam-cleaner get library [library-index]
+        // steam-cleaner get prefix [app-id]
+
+        // seam-cleaner delete prefix [app-id]
+
+
         String homePath = System.getProperty("user.home");
         Path defaultInstallation = Path.of(homePath).resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
 

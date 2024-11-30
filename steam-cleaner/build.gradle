@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation project(':utilities')
-    implementation 'info.picocli:picocli:4.7.6'
+    implementation('org.jcommander:jcommander:2.0')
 
     testImplementation project(':test-resources')
 }
@@ -24,6 +24,10 @@ tasks.named('installDist') {
 }
 
 tasks.register('linkInstallation', Exec) {
-    def installDir = installationDirectory()
-    commandLine 'ln', '-s', "${installDir}/bin/${project.name}", "${file(installDir).parent}/steam_cleaner"
+    String installDir = installationDirectory()
+    File link = file("${file(installDir).parent}/steam_cleaner")
+    if (link.exists()) {
+        link.delete()
+    }
+    commandLine 'ln', '-s', "${installDir}/bin/${project.name}", link
 }
