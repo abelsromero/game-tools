@@ -24,8 +24,11 @@ public class Runner {
         if (action == null) {
             argsParser.printUsage();
         }
-        System.out.println("Command read: %s,%s".formatted(action.command(), action.subCommand()));
-        System.out.println("\n");
+
+        if (action != null) {
+            System.out.println("Command read: %s,%s".formatted(action.command(), action.subCommand()));
+            System.out.println("\n");
+        }
 
         // entities: libraries, apps, prefixes
 
