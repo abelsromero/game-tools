@@ -3,6 +3,7 @@ package org.gametools.cleaner;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.Parameter;
+import org.gametools.cleaner.actions.Action;
 
 import java.util.Map;
 
