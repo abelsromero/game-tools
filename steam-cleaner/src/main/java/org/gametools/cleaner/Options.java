@@ -10,5 +10,4 @@ public final class Options {
     @Parameter(names = {"-s", "--storage-drive"}, order = 2)
     boolean storageDrive = false;
 
-
 }

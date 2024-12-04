@@ -1,16 +1,30 @@
 package org.gametools.cleaner.actions;
 
+import org.gametools.cleaner.StorageDrive;
 import org.gametools.cleaner.StorageLocator;
-import org.gametools.utilities.SteamPaths;
+
+import java.util.List;
 
 public class GetLibraries implements ActionRunner {
 
+    private final StorageLocator storageLocator;
+
+    public GetLibraries(StorageLocator storageLocator) {
+        this.storageLocator = storageLocator;
+    }
+
     @Override
     public void run() {
-        new StorageLocator(SteamPaths.libraryFolders().toString())
-            .getDrives()
-            .forEach(storageDrive -> {
-                System.out.println(storageDrive.path());
-            });
+        List<StorageDrive> drives = storageLocator.getDrives();
+
+        if (drives.isEmpty()) {
+            System.out.println("No libraries found");
+        } else {
+            System.out.println("Found: " + drives.size());
+        }
+
+        drives.forEach(storageDrive -> {
+            System.out.println("  %s: %s".formatted(storageDrive.id(), storageDrive.path()));
+        });
     }
 }

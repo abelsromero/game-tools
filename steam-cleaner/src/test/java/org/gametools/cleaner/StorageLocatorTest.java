@@ -17,8 +17,8 @@ class StorageLocatorTest {
         List<StorageDrive> drives = storageLocator.getDrives();
 
         assertThat(drives).containsExactlyInAnyOrder(
-            new StorageDrive("/home/user/.local/share/Steam"),
-            new StorageDrive("/media/drive/games/steam")
+            new StorageDrive("0", "/home/user/.local/share/Steam"),
+            new StorageDrive("1", "/media/drive/games/steam")
         );
 
     }
