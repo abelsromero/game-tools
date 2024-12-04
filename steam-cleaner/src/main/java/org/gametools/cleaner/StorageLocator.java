@@ -6,7 +6,7 @@ import org.gametools.utilities.VdfParser;
 import java.util.List;
 import java.util.Map;
 
-class StorageLocator {
+public class StorageLocator {
 
     // VDF 'libraryfolders' file
     private final String libraryDescriptorPath;
@@ -21,14 +21,11 @@ class StorageLocator {
 
         Map<String, Object> root = (Map<String, Object>) vdfFile.properties().get("libraryfolders");
 
-        return root.values()
+        return root.entrySet()
             .stream()
-            .map(value -> ((Map<String, String>)value).get("path"))
-            .map(StorageDrive::new)
+            .map(entry -> new StorageDrive(entry.getKey(), ((Map<String, String>) entry.getValue()).get("path")))
             .toList();
     }
 }
 
 
-record StorageDrive(String path) {
-}

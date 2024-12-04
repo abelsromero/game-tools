@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 // TODO make CompositeAppRepository to handle multiple repositories together
-class AppsRepository {
+public class AppsRepository {
 
     private static final String APPS_DIR = "steamapps";
 
@@ -72,5 +72,3 @@ class AppsRepository {
 
 }
 
-record App(Integer id, String name, String installDir) {
-}

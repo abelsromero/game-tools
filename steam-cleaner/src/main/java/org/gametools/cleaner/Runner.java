@@ -3,17 +3,13 @@
  */
 package org.gametools.cleaner;
 
-import java.nio.file.Path;
-import java.util.List;
+import org.gametools.cleaner.actions.Action;
+import org.gametools.cleaner.actions.RunnerResolver;
 
 /**
  * WIP: used for prototyping
  */
 public class Runner {
-
-    private static final String DEFAULT_INSTALLATION = ".local/share/Steam/steamapps";
-    // Storage Drives' index
-    public static final String LIBRARY_FOLDERS = "libraryfolders.vdf";
 
     public static void main(String[] args) {
 
@@ -24,42 +20,36 @@ public class Runner {
         if (action == null) {
             argsParser.printUsage();
         }
-        System.out.println("Command read: %s,%s".formatted(action.command(), action.subCommand()));
-        System.out.println("\n");
 
-        // entities: libraries, apps, prefixes
-
-        //  steam-cleaner list libraries
-        //  steam-cleaner list apps (column with library)
-        //  steam-cleaner list prefixes (column with library)
-
-        // steam-cleaner get apps [library-index]
-        // steam-cleaner get library [library-index]
-        // steam-cleaner get prefix [app-id]
-
-        // seam-cleaner delete prefix [app-id]
-
-
-        String homePath = System.getProperty("user.home");
-        Path defaultInstallation = Path.of(homePath).resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
-
-        StorageLocator storageLocator = new StorageLocator(defaultInstallation.toString());
-
-        List<StorageDrive> drives = storageLocator.getDrives();
-        for (StorageDrive drive : drives) {
-            final String path = drive.path();
-            System.out.println(path);
-            // TODO pass all paths to have a unique view and return store-location as part of an Apps (string or object)?
-            AppsRepository appsRepository = new AppsRepository(path);
-
-            List<App> apps = appsRepository.getApps();
-            for (App app : apps) {
-                System.out.println("%s:\t'%s'\t\t@ '%s'".formatted(app.id(), app.name(), buildPath(app, drive)));
-            }
+        if (action != null) {
+            System.out.println("Command read: %s,%s".formatted(action.command(), action.subCommand()));
+            System.out.println("\n");
         }
+
+        new RunnerResolver()
+            .resolver(action)
+            .run();
+
+//        String homePath = System.getProperty("user.home");
+//        Path defaultInstallation = Path.of(homePath).resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
+//
+//        StorageLocator storageLocator = new StorageLocator(defaultInstallation.toString());
+//
+//        List<StorageDrive> drives = storageLocator.getDrives();
+//        for (StorageDrive drive : drives) {
+//            final String path = drive.path();
+//            System.out.println(path);
+//            // TODO pass all paths to have a unique view and return store-location as part of an Apps (string or object)?
+//            AppsRepository appsRepository = new AppsRepository(path);
+//
+//            List<App> apps = appsRepository.getApps();
+//            for (App app : apps) {
+//                System.out.println("%s:\t'%s'\t\t@ '%s'".formatted(app.id(), app.name(), buildPath(app, drive)));
+//            }
+//        }
     }
 
-    private static Object buildPath(App app, StorageDrive drive) {
-        return "%s/steamapps/common/%s".formatted(drive.path(), app.installDir());
-    }
+//    private static Object buildPath(App app, StorageDrive drive) {
+//        return "%s/steamapps/common/%s".formatted(drive.path(), app.installDir());
+//    }
 }
