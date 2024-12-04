@@ -19,7 +19,15 @@ public class VdfParser {
         final Stack<Entry> parents = new Stack<>();
         Entry currentEntry = null;
 
-        try (BufferedReader br = buildBufferedReader(filePath)) {
+        BufferedReader bufferedReader;
+        try {
+            bufferedReader = buildBufferedReader(filePath);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+
+
+        try (BufferedReader br = bufferedReader) {
             String line;
             int lineIndex = 0;
 
@@ -65,7 +73,7 @@ public class VdfParser {
         }
     }
 
-    private static BufferedReader buildBufferedReader(String filePath) {
+    private static BufferedReader buildBufferedReader(String filePath) throws FileNotFoundException {
         return new BufferedReader(buildReader(filePath));
     }
 

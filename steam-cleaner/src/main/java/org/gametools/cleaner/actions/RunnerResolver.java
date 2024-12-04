@@ -10,7 +10,7 @@ public class RunnerResolver {
         return switch (action.command()) {
             case GET -> switch (action.subCommand()) {
                 case LIBRARY -> new GetLibraries(Factories.getStorageLocator());
-                case APP -> new GetApps();
+                case APP -> new GetApps(Factories.getStorageLocator());
             };
             case LIST -> switch (action.subCommand()) {
                 case LIBRARY, APP -> new VoidRunner();

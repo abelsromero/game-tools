@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GetLibrariesTest {
+class GetAppsTest {
 
     private OutputHandler output;
 
@@ -25,12 +25,12 @@ class GetLibrariesTest {
     }
 
     @Test
-    void should_return_all_libraries() {
+    void should_return_all_apps() {
         final var fakeStorageLocator = getFakeStorageLocator(List.of(
             new StorageDrive("0", "/home/me/.steam"),
             new StorageDrive("1", "/mount/other/games")
         ));
-        final var actionRunner = new GetLibraries(fakeStorageLocator);
+        final ActionRunner actionRunner = new GetApps(fakeStorageLocator);
 
         actionRunner.run();
 
@@ -44,7 +44,7 @@ class GetLibrariesTest {
     }
 
     @Test
-    void should_return_zero_libraries() {
+    void should_return_zero_apps() {
         final var fakeStorageLocator = getFakeStorageLocator(List.of());
         final var actionRunner = new GetLibraries(fakeStorageLocator);
 
