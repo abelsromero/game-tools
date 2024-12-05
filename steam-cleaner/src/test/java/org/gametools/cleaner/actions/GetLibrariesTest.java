@@ -1,7 +1,6 @@
 package org.gametools.cleaner.actions;
 
 import org.gametools.cleaner.StorageDrive;
-import org.gametools.cleaner.StorageLocator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.gametools.cleaner.actions.Fakes.fakeStorageLocator;
 
 class GetLibrariesTest {
 
@@ -26,7 +26,7 @@ class GetLibrariesTest {
 
     @Test
     void should_return_all_libraries() {
-        final var fakeStorageLocator = getFakeStorageLocator(List.of(
+        final var fakeStorageLocator = fakeStorageLocator(List.of(
             new StorageDrive("0", "/home/me/.steam"),
             new StorageDrive("1", "/mount/other/games")
         ));
@@ -45,7 +45,7 @@ class GetLibrariesTest {
 
     @Test
     void should_return_zero_libraries() {
-        final var fakeStorageLocator = getFakeStorageLocator(List.of());
+        final var fakeStorageLocator = fakeStorageLocator(List.of());
         final var actionRunner = new GetLibraries(fakeStorageLocator);
 
         actionRunner.run();
@@ -55,14 +55,6 @@ class GetLibrariesTest {
         assertThat(output).isEqualTo("""
             No libraries found
             """);
-    }
-
-    private static StorageLocator getFakeStorageLocator(List<StorageDrive> expected) {
-        return new StorageLocator(null) {
-            public List<StorageDrive> getDrives() {
-                return expected;
-            }
-        };
     }
 
 }
