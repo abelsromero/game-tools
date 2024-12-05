@@ -26,7 +26,6 @@ public class VdfParser {
             return null;
         }
 
-
         try (BufferedReader br = bufferedReader) {
             String line;
             int lineIndex = 0;
