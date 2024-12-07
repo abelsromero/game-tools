@@ -11,8 +11,8 @@ class ArgsParser {
 
     private final JCommander jc = new JCommander();
 
-    private final GenericOptions genericOptions = new GenericOptions();
-    private final IdOption idOption = new IdOption();
+    private final GenericOptions commandOptions = new GenericOptions();
+    private final IdOption subcommandOptions = new IdOption();
 
     static class GenericOptions {
         @Parameter(names = {"-h", "--help"}, help = true)
@@ -26,13 +26,13 @@ class ArgsParser {
 
     ArgsParser() {
 
-        jc.addCommand("get", genericOptions);
+        jc.addCommand("get", commandOptions);
 
         final Map<String, JCommander> commands = jc.getCommands();
         final JCommander get = commands.get("get");
 
-        get.addCommand("library", idOption, "libraries");
-        get.addCommand("app", idOption, "apps");
+        get.addCommand("library", subcommandOptions, "libraries");
+        get.addCommand("app", subcommandOptions, "apps");
     }
 
     /**
@@ -46,13 +46,19 @@ class ArgsParser {
             if (parsedCommand == null) {
                 return null;
             }
+            if (commandOptions.help) {
+                return new Action(parsedCommand, null, true, null);
+            }
 
             final String subCommand = jc.getCommands().get(parsedCommand).getParsedCommand();
             if (subCommand == null) {
                 return null;
             }
+            if (subcommandOptions.help) {
+                return new Action(parsedCommand, subCommand, true, null);
+            }
 
-            return new Action(parsedCommand, subCommand, idOption.id);
+            return new Action(parsedCommand, subCommand, false, subcommandOptions.id);
         } catch (MissingCommandException e) {
             return null;
         }
