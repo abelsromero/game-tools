@@ -56,12 +56,20 @@ class ArgsParserTest {
             Arguments.of(toArray("get libraries"), action("get", "library")),
             Arguments.of(toArray("get library"), action("get", "library")),
             Arguments.of(toArray("get apps"), action("get", "app")),
-            Arguments.of(toArray("get app"), action("get", "app"))
+            Arguments.of(toArray("get app"), action("get", "app")),
+            Arguments.of(toArray("get app 123"), action("get", "app", "123")),
+            Arguments.of(toArray("get library 123"), action("get", "library", "123")),
+            Arguments.of(toArray("get apps 123"), action("get", "app", "123")),
+            Arguments.of(toArray("get libraries 123"), action("get", "library", "123"))
         );
     }
 
     private static Action action(String com, String subcom) {
-        return new Action(com, subcom);
+        return action(com, subcom, null);
+    }
+
+    private static Action action(String com, String subcom, String id) {
+        return new Action(com, subcom, id);
     }
 
     private static String[] toArray(String command) {

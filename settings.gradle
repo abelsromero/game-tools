@@ -1,5 +1,4 @@
 include(
-    'list',
     'steam-cleaner',
     'test-resources',
     'utilities'
