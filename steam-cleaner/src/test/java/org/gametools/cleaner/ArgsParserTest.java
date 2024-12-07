@@ -45,10 +45,28 @@ class ArgsParserTest {
 
     @ParameterizedTest
     @MethodSource("validCommands")
-    void should_parse_subcommand(String[] args, Action expectedAction) {
+    void should_parse_subcommands(String[] args, Action expectedAction) {
         Action action = argsParser.parse(args);
 
         assertThat(action).isEqualTo(expectedAction);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-h", "--help"})
+    void should_parse_help_command(String help) {
+        final String[] args = new String[]{"get", help, "apps", "123"};
+        Action action = argsParser.parse(args);
+
+        assertThat(action).isEqualTo(new Action("get", null, true, null));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-h", "--help"})
+    void should_parse_help_subcommand(String help) {
+        final String[] args = new String[]{"get", "apps", help, "123"};
+        Action action = argsParser.parse(args);
+
+        assertThat(action).isEqualTo(new Action("get", "app", true, null));
     }
 
     private static Stream<Arguments> validCommands() {
@@ -69,7 +87,7 @@ class ArgsParserTest {
     }
 
     private static Action action(String com, String subcom, String id) {
-        return new Action(com, subcom, id);
+        return new Action(com, subcom, false, id);
     }
 
     private static String[] toArray(String command) {
