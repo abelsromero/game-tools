@@ -11,22 +11,28 @@ class ArgsParser {
 
     private final JCommander jc = new JCommander();
 
+    private final GenericOptions genericOptions = new GenericOptions();
+    private final IdOption idOption = new IdOption();
+
     static class GenericOptions {
         @Parameter(names = {"-h", "--help"}, help = true)
         public boolean help;
-
-//        @Parameter(names = {"version"})
-//        public boolean version;
     }
 
+    static class IdOption extends GenericOptions {
+        @Parameter
+        private String id;
+    }
 
     ArgsParser() {
-        jc.addCommand("get", new GenericOptions());
+
+        jc.addCommand("get", genericOptions);
 
         final Map<String, JCommander> commands = jc.getCommands();
         final JCommander get = commands.get("get");
-        get.addCommand("library", new GenericOptions(), "libraries");
-        get.addCommand("app", new GenericOptions(), "apps");
+
+        get.addCommand("library", idOption, "libraries");
+        get.addCommand("app", idOption, "apps");
     }
 
     /**
@@ -46,7 +52,7 @@ class ArgsParser {
                 return null;
             }
 
-            return new Action(parsedCommand, subCommand);
+            return new Action(parsedCommand, subCommand, idOption.id);
         } catch (MissingCommandException e) {
             return null;
         }
