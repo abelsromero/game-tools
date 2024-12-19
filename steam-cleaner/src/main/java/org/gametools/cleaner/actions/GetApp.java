@@ -29,10 +29,13 @@ public class GetApp implements ActionRunner {
             Optional<App> candidate = appsRepository.getApp(instanceId);
             if (candidate.isPresent()) {
                 App app = candidate.get();
-                System.out.printf("%-10s %-10d%n", "Id:", app.id());
-                System.out.printf("%-10s %-10s%n", "Name:", app.name());
-                System.out.printf("%-10s %-10s/%s%n", "Location:", drive.getAppsPath(),app.installDir());
+                System.out.printf("%-11s %d%n", "Id:", app.id());
+                System.out.printf("%-11s %s%n", "Name:", app.name());
+                System.out.printf("%-11s %s/%s%n", "Location:", drive.getAppsPath(), app.installDir());
+                System.out.printf("%-11s %s/%s%n", "Compatdata:", drive.getCompatdataPath(), app.id());
                 return;
+            } else {
+                System.out.println("No app found");
             }
         }
     }

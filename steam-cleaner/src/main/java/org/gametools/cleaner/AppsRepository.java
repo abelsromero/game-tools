@@ -16,7 +16,7 @@ public class AppsRepository {
     private static final String APPS_DIR = "steamapps";
 
     private static final String INSTALL_DIR = "common";
-    private static final String COMPAT_DATA_DIR = "compatdata";
+    private static final String COMPATDATA_DIR = "compatdata";
 
     private final Path appsRoot;
 
@@ -76,7 +76,7 @@ public class AppsRepository {
             })
             .toList();
 
-        return listFiles(appsRoot.resolve(COMPAT_DATA_DIR))
+        return listFiles(appsRoot.resolve(COMPATDATA_DIR))
             .filter(path -> path.toFile().isDirectory())
             .filter(path -> !appIds.contains(path.getFileName().toString()))
             .toList();
@@ -92,6 +92,10 @@ public class AppsRepository {
 
     public static String getAppsPath() {
         return "%s/%s".formatted(APPS_DIR, INSTALL_DIR);
+    }
+
+    public static String getCompatdataPath() {
+        return "%s/%s".formatted(APPS_DIR, COMPATDATA_DIR);
     }
 }
 

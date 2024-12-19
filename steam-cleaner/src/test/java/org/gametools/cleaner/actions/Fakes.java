@@ -6,6 +6,7 @@ import org.gametools.cleaner.StorageDrive;
 import org.gametools.cleaner.StorageLocator;
 
 import java.util.List;
+import java.util.Optional;
 
 class Fakes {
 
@@ -18,10 +19,20 @@ class Fakes {
     }
 
     static AppsRepository fakeAppsRepository(List<App> expected) {
+
         return new AppsRepository("/fake/path") {
             public List<App> getApps() {
                 return expected;
             }
+
+            public Optional<App> getApp(Integer appId) {
+                return expected.stream().filter(app -> app.id().equals(appId)).findFirst();
+            }
         };
     }
+
+    static App app(int id) {
+        return new App(id, "Game-0" + id, "/path/game/0" + id);
+    }
+
 }
