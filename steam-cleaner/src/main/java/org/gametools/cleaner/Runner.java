@@ -4,6 +4,7 @@
 package org.gametools.cleaner;
 
 import org.gametools.cleaner.actions.Action;
+import org.gametools.cleaner.actions.ActionRunner;
 import org.gametools.cleaner.actions.RunnerResolver;
 
 /**
@@ -19,6 +20,7 @@ public class Runner {
 
         if (action == null) {
             argsParser.printUsage();
+            return;
         }
 
         if (action != null) {
@@ -29,27 +31,5 @@ public class Runner {
         new RunnerResolver()
             .resolver(action)
             .run();
-
-//        String homePath = System.getProperty("user.home");
-//        Path defaultInstallation = Path.of(homePath).resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
-//
-//        StorageLocator storageLocator = new StorageLocator(defaultInstallation.toString());
-//
-//        List<StorageDrive> drives = storageLocator.getDrives();
-//        for (StorageDrive drive : drives) {
-//            final String path = drive.path();
-//            System.out.println(path);
-//            // TODO pass all paths to have a unique view and return store-location as part of an Apps (string or object)?
-//            AppsRepository appsRepository = new AppsRepository(path);
-//
-//            List<App> apps = appsRepository.getApps();
-//            for (App app : apps) {
-//                System.out.println("%s:\t'%s'\t\t@ '%s'".formatted(app.id(), app.name(), buildPath(app, drive)));
-//            }
-//        }
     }
-
-//    private static Object buildPath(App app, StorageDrive drive) {
-//        return "%s/steamapps/common/%s".formatted(drive.path(), app.installDir());
-//    }
 }

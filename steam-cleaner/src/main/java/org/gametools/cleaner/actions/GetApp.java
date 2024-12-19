@@ -34,9 +34,8 @@ public class GetApp implements ActionRunner {
                 System.out.printf("%-11s %s/%s%n", "Location:", drive.getAppsPath(), app.installDir());
                 System.out.printf("%-11s %s/%s%n", "Compatdata:", drive.getCompatdataPath(), app.id());
                 return;
-            } else {
-                System.out.println("No app found");
             }
         }
+        System.out.println("No app found");
     }
 }
