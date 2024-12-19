@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 // TODO make CompositeAppRepository to handle multiple repositories together
@@ -15,7 +16,7 @@ public class AppsRepository {
     private static final String APPS_DIR = "steamapps";
 
     private static final String INSTALL_DIR = "common";
-    private static final String COMPAT_DATA_DIR = "compatdata";
+    private static final String COMPATDATA_DIR = "compatdata";
 
     private final Path appsRoot;
 
@@ -30,13 +31,32 @@ public class AppsRepository {
             .map(path -> parser.parse(path.toString()))
             .map(vdfFile -> {
                 Map<String, String> appState = (Map<String, String>) vdfFile.properties().get("AppState");
-                return new App(
-                    Integer.valueOf(appState.get("appid")),
-                    appState.get("name"),
-                    appState.get("installdir")
-                );
+                return map(appState);
             })
             .toList();
+    }
+
+    public Optional<App> getApp(Integer appId) {
+        final VdfParser parser = new VdfParser();
+
+        return installedAppsManifests()
+            .map(path -> parser.parse(path.toString()))
+            .map(vdfFile -> (Map<String, String>) vdfFile.properties().get("AppState"))
+            .filter(properties -> extractAppId(properties).equals(appId))
+            .map(properties -> map(properties))
+            .findFirst();
+    }
+
+    private static App map(Map<String, String> properties) {
+        return new App(
+            extractAppId(properties),
+            properties.get("name"),
+            properties.get("installdir")
+        );
+    }
+
+    private static Integer extractAppId(Map<String, String> properties) {
+        return Integer.valueOf(properties.get("appid"));
     }
 
     private Stream<Path> installedAppsManifests() {
@@ -56,7 +76,7 @@ public class AppsRepository {
             })
             .toList();
 
-        return listFiles(appsRoot.resolve(COMPAT_DATA_DIR))
+        return listFiles(appsRoot.resolve(COMPATDATA_DIR))
             .filter(path -> path.toFile().isDirectory())
             .filter(path -> !appIds.contains(path.getFileName().toString()))
             .toList();
@@ -70,5 +90,12 @@ public class AppsRepository {
         }
     }
 
+    public static String getAppsPath() {
+        return "%s/%s".formatted(APPS_DIR, INSTALL_DIR);
+    }
+
+    public static String getCompatdataPath() {
+        return "%s/%s".formatted(APPS_DIR, COMPATDATA_DIR);
+    }
 }
 

@@ -11,7 +11,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.gametools.cleaner.actions.Fakes.*;
 
-class GetAppsTest {
+class GetAppTest {
 
     private OutputHandler output;
 
@@ -26,47 +26,42 @@ class GetAppsTest {
     }
 
     @Test
-    void should_return_all_apps() {
+    void should_return_a_single_app() {
         var apps = List.of(app(1), app(2), app(3), app(4));
         final var fakeStorageLocator = fakeStorageLocator(List.of(
-            new StorageDrive("0", "/home/me/.steam"),
-            new StorageDrive("1", "/mount/other/games")
+            new StorageDrive("0", "/home/me/.steam")
         ));
-        final ActionRunner actionRunner = new GetApps(fakeStorageLocator, it -> fakeAppsRepository(apps));
+
+        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
 
         actionRunner.run();
 
         String output = this.output.getOutput();
 
         assertThat(output).isEqualTo("""
-            Found: 8
-            
-            = Library /home/me/.steam
-            1          Game-01  \s
-            2          Game-02  \s
-            3          Game-03  \s
-            4          Game-04  \s
-            
-            = Library /mount/other/games
-            1          Game-01  \s
-            2          Game-02  \s
-            3          Game-03  \s
-            4          Game-04  \s
+            Id:         1
+            Name:       Game-01
+            Location:   /home/me/.steam/steamapps/common//path/game/01
+            Compatdata: /home/me/.steam/steamapps/compatdata/1
             """);
     }
 
     @Test
-    void should_return_zero_apps() {
+    void should_return_not_found() {
         final List<App> apps = List.of();
-        final var fakeStorageLocator = fakeStorageLocator(List.of());
-        final ActionRunner actionRunner = new GetApps(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var fakeStorageLocator = fakeStorageLocator(List.of(
+            new StorageDrive("0", "/home/me/.steam")
+        ));
+
+        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
 
         actionRunner.run();
 
         String output = this.output.getOutput();
 
         assertThat(output).isEqualTo("""
-            No apps found
+            No app found
             """);
     }
+
 }
