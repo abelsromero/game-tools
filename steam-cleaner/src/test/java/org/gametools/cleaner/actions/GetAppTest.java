@@ -29,7 +29,8 @@ class GetAppTest {
     void should_return_a_single_app() {
         var apps = List.of(app(1), app(2), app(3), app(4));
         final var fakeStorageLocator = fakeStorageLocator(List.of(
-            new StorageDrive("0", "/home/me/.steam")
+            new StorageDrive("0", "/home/me/.steam"),
+            new StorageDrive("1", "/mount/other/games")
         ));
 
         final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
@@ -50,7 +51,8 @@ class GetAppTest {
     void should_return_not_found() {
         final List<App> apps = List.of();
         final var fakeStorageLocator = fakeStorageLocator(List.of(
-            new StorageDrive("0", "/home/me/.steam")
+            new StorageDrive("0", "/home/me/.steam"),
+            new StorageDrive("1", "/mount/other/games")
         ));
 
         final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
