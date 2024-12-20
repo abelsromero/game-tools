@@ -1,0 +1,48 @@
+{
+  "reflection": [
+    {
+      "type": "com.beust.jcommander.converters.BooleanConverter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.beust.jcommander.validators.NoValidator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.beust.jcommander.validators.NoValueValidator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.gametools.cleaner.ArgsParser$GenericOptions",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "org.gametools.cleaner.ArgsParser$IdOption",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "org.gametools.cleaner.actions.OutputHandler"
+    }
+  ],
+  "resources": [],
+  "bundles": [],
+  "serialization": [],
+  "jni": []
+}

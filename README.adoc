@@ -15,3 +15,7 @@ The task will:
 
 * build and install the bootstrap scripts and libraries in `${HOME}/.local/bin/game-tools-0.0.1-dev`.
 * add 'steam_cleaner' to PATH
+
+== Building de binary distribution
+
+ ./gradlew :steam-cleaner:nativeCompile
