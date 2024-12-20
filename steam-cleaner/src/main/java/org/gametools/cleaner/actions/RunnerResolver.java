@@ -4,8 +4,6 @@ import org.gametools.cleaner.AppsRepository;
 import org.gametools.cleaner.StorageLocator;
 import org.gametools.utilities.SteamPaths;
 
-import java.util.Map;
-
 public class RunnerResolver {
 
     public ActionRunner resolver(Action action) {

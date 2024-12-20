@@ -16,11 +16,11 @@ subprojects {
         testImplementation 'org.assertj:assertj-core:3.26.3'
     }
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
+//    java {
+//        toolchain {
+//            languageVersion = JavaLanguageVersion.of(21)
+//        }
+//    }
 
     tasks.named('test') {
         useJUnitPlatform()

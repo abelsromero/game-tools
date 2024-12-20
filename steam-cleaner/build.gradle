@@ -14,6 +14,14 @@ application {
     mainClass = 'org.gametools.cleaner.Runner'
 }
 
+graalvmNative {
+    binaries {
+        main {
+            mainClass = application.mainClass
+        }
+    }
+}
+
 String installationDirectory() {
     "${System.getProperty('user.home')}/.local/bin/game-tools-${version}"
 }

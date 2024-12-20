@@ -34,5 +34,7 @@ jobs:
         with:
           java-version: '23.0.1'
           distribution: 'graalvm-community'
-      - name: Gradle build
-        run: ./gradlew nativeTestCompile --no-daemon
+      - name: Gradle native test
+        run: ./gradlew nativeTest --no-daemon
+      - name: Gradle native test
+        run: ./gradlew :steam-cleaner:nativeCompile --no-daemon

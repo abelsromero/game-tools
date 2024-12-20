@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-class OutputHandler {
+public class OutputHandler {
 
     private final PrintStream originalOut;
     private final OutputStream newOut;
@@ -15,11 +15,11 @@ class OutputHandler {
         System.setOut(new PrintStream(newOut));
     }
 
-    static OutputHandler start() {
+    public static OutputHandler start() {
         return new OutputHandler();
     }
 
-    void release() {
+    public void release() {
         System.setOut(originalOut);
     }
 

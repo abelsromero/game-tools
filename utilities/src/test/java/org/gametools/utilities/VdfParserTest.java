@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.gametools.testing.TestResource.fromClasspath;
+import static org.gametools.testing.TestResource.fromFile;
 
 class VdfParserTest {
 
@@ -13,7 +13,7 @@ class VdfParserTest {
 
     @Test
     void should_parse_libraryfolder_file() {
-        final String filePath = fromClasspath("libraryfolders.vdf");
+        final String filePath = fromFile("libraryfolders.vdf");
 
         final VdfFile file = parser.parse(filePath);
 
@@ -44,7 +44,7 @@ class VdfParserTest {
 
     @Test
     void should_parse_appmanifest_file() {
-        final String filePath = fromClasspath("appmanifest_22380.acf");
+        final String filePath = fromFile("appmanifest_22380.acf");
 
         final VdfFile file = parser.parse(filePath);
 
