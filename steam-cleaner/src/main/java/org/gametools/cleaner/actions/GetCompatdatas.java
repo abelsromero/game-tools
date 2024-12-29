@@ -1,7 +1,5 @@
 package org.gametools.cleaner.actions;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.file.PathUtils;
 import org.gametools.cleaner.App;
 import org.gametools.cleaner.AppsRepository;
 import org.gametools.cleaner.StorageDrive;
@@ -11,8 +9,12 @@ import org.gametools.utilities.Pair;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+
+import static org.gametools.utilities.FileUtils.sizeFormatted;
 
 public class GetCompatdatas implements ActionRunner {
 
@@ -27,38 +29,32 @@ public class GetCompatdatas implements ActionRunner {
 
     @Override
     public void run() {
-        List<StorageDrive> drives = storageLocator.getDrives();
-
-        if (drives.isEmpty()) {
-            System.out.println("No libraries found");
-            System.exit(0);
-        }
-
         final Map<Integer, App> installedApps = getInstalledApps();
 
-        drives.forEach(storageDrive -> {
-            System.out.println();
-            System.out.printf("= Library %s%n", storageDrive.path());
+        storageLocator.getDrives()
+            .forEach(drive -> {
+                System.out.println();
+                System.out.printf("= Library %s%n", drive.path());
 
-            try {
-                Files.list(Path.of(storageDrive.getCompatdataPath()))
-                    .filter(Files::isDirectory)
-                    .map(path -> new Pair(extractId(path), path))
-                    .sorted(Comparator.comparingInt(value -> (int) value.key()))
-                    .forEach(appData -> {
-                        int appId = (int) appData.key();
-                        Path path = (Path) appData.value();
-                        App app = installedApps.get(appId);
-                        if (app != null) {
-                            app.printSummary();
-                        } else {
-                            System.out.printf("%-10d %-15s %-10s%n", appId, "(uninstalled)", sizeFormatted(path));
-                        }
-                    });
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                try {
+                    Files.list(Path.of(drive.getCompatdataPath()))
+                        .filter(Files::isDirectory)
+                        .map(path -> new Pair(extractId(path), path))
+                        .sorted(Comparator.comparingInt(value -> (int) value.key()))
+                        .forEach(appData -> {
+                            int appId = (int) appData.key();
+                            Path path = (Path) appData.value();
+                            App app = installedApps.get(appId);
+                            if (app != null) {
+                                app.printSummary();
+                            } else {
+                                System.out.printf("%-10d %-15s %-10s%n", appId, "(uninstalled)", sizeFormatted(path));
+                            }
+                        });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
     }
 
     // TODO this should be part of AppsRepository ?
@@ -75,15 +71,6 @@ public class GetCompatdatas implements ActionRunner {
 
     private static int extractId(Path path) {
         return Integer.parseInt(path.getFileName().toString());
-    }
-
-    // This is an approximation. For example, 'du' includes 4K for folders.
-    private static String sizeFormatted(Path path) {
-        try {
-            return "%d MB".formatted(PathUtils.sizeOfDirectory(path) / (1024 * 1024));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

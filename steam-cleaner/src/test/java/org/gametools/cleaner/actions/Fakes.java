@@ -32,7 +32,7 @@ class Fakes {
     }
 
     static App app(int id) {
-        return new App(id, "Game-0" + id, "/path/game/0" + id);
+        return new App(id, "Game-0" + id, "path/game/0" + id);
     }
 
 }

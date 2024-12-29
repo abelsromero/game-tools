@@ -13,9 +13,9 @@ public class RunnerResolver {
 
         return switch (action.command()) {
             case GET -> switch (action.subCommand()) {
-                case LIBRARY -> new GetLibraries(Factories.getStorageLocator());
                 case APP -> buildGetAppsActionRunner(action);
-                case COMPATDATA -> buildGetCompatdatasActionRunner();
+                case COMPATDATA -> buildGetCompatdatasActionRunner(action);
+                case LIBRARY -> new GetLibraries(Factories.getStorageLocator());
             };
         };
     }
@@ -31,8 +31,15 @@ public class RunnerResolver {
         }
     }
 
-    private ActionRunner buildGetCompatdatasActionRunner() {
-        return new GetCompatdatas(Factories.getStorageLocator(), Factories.getAppsRepositoryFactory());
+    private ActionRunner buildGetCompatdatasActionRunner(Action action) {
+        if (action.instanceId() == null) {
+            return new GetCompatdatas(Factories.getStorageLocator(),
+                Factories.getAppsRepositoryFactory());
+        } else {
+            return new GetCompatdata(Factories.getStorageLocator(),
+                Factories.getAppsRepositoryFactory(),
+                mapId(action.instanceId()));
+        }
     }
 
     private static Integer mapId(String id) {
@@ -44,7 +51,6 @@ public class RunnerResolver {
         private static StorageLocator getStorageLocator() {
             return new StorageLocator(SteamPaths.libraryFolders().toString());
         }
-
 
         private static Function<StorageDrive, AppsRepository> getAppsRepositoryFactory() {
             return storageDrive -> new AppsRepository(storageDrive.path());

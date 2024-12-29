@@ -104,11 +104,21 @@ class GetCompatdatasTest {
 
         String output = this.output.getOutput();
 
-        assertThat(output).isEqualTo("""
-            No libraries found
-            """);
+        assertThat(output).isEqualTo("");
     }
 
+    @Test
+    void should_return_comptdata_not_found() {
+        final List<App> apps = List.of();
+        final var fakeStorageLocator = fakeStorageLocator(List.of());
+        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+
+        actionRunner.run();
+
+        String output = this.output.getOutput();
+
+        assertThat(output).isEqualTo("");
+    }
     @Test
     void should_return_zero_compatdata() {
         final List<App> apps = List.of();
