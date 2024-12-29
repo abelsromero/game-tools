@@ -17,9 +17,6 @@ public class RunnerResolver {
                 case APP -> buildGetAppsActionRunner(action);
                 case COMPATDATA -> buildGetCompatdatasActionRunner();
             };
-            case LIST -> switch (action.subCommand()) {
-                case LIBRARY, APP, COMPATDATA -> new VoidRunner();
-            };
         };
     }
 
