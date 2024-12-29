@@ -1,8 +1,11 @@
 package org.gametools.cleaner.actions;
 
 import org.gametools.cleaner.AppsRepository;
+import org.gametools.cleaner.StorageDrive;
 import org.gametools.cleaner.StorageLocator;
 import org.gametools.utilities.SteamPaths;
+
+import java.util.function.Function;
 
 public class RunnerResolver {
 
@@ -12,9 +15,10 @@ public class RunnerResolver {
             case GET -> switch (action.subCommand()) {
                 case LIBRARY -> new GetLibraries(Factories.getStorageLocator());
                 case APP -> buildGetAppsActionRunner(action);
+                case COMPATDATA -> buildGetCompatdatasActionRunner();
             };
             case LIST -> switch (action.subCommand()) {
-                case LIBRARY, APP -> new VoidRunner();
+                case LIBRARY, APP, COMPATDATA -> new VoidRunner();
             };
         };
     }
@@ -22,12 +26,16 @@ public class RunnerResolver {
     private ActionRunner buildGetAppsActionRunner(Action action) {
         if (action.instanceId() == null) {
             return new GetApps(Factories.getStorageLocator(),
-                storageDrive -> new AppsRepository(storageDrive.path()));
+                Factories.getAppsRepositoryFactory());
         } else {
             return new GetApp(Factories.getStorageLocator(),
-                storageDrive -> new AppsRepository(storageDrive.path()),
+                Factories.getAppsRepositoryFactory(),
                 mapId(action.instanceId()));
         }
+    }
+
+    private ActionRunner buildGetCompatdatasActionRunner() {
+        return new GetCompatdatas(Factories.getStorageLocator(), Factories.getAppsRepositoryFactory());
     }
 
     private static Integer mapId(String id) {
@@ -38,6 +46,11 @@ public class RunnerResolver {
 
         private static StorageLocator getStorageLocator() {
             return new StorageLocator(SteamPaths.libraryFolders().toString());
+        }
+
+
+        private static Function<StorageDrive, AppsRepository> getAppsRepositoryFactory() {
+            return storageDrive -> new AppsRepository(storageDrive.path());
         }
     }
 }

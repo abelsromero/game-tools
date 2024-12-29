@@ -1,5 +1,6 @@
 package org.gametools.testing;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +39,30 @@ public class TestLibraryTemplate {
 
     public TestLibraryTemplate addCompadata(int appId) {
         createDirectory(targetCompatdata, Integer.toString(appId));
+        return this;
+    }
+
+    public TestLibraryTemplate addCompadata(int appId, Integer fileSizeInMb) {
+        Path directory = createDirectory(targetCompatdata, Integer.toString(appId));
+
+        try {
+            Path file = Files.createFile(directory.resolve("fake.file"));
+            BufferedWriter bufferedWriter = Files.newBufferedWriter(file);
+
+            long fileSizeInKb = fileSizeInMb * 1024 * 1024;
+            int pageSize = 1024 * 4 * 16;
+            var page = new char[pageSize];
+            long pages = fileSizeInKb / pageSize;
+
+            bufferedWriter.write(fileSizeInMb + "\n");
+            for (int i = -1; i < pages; i++) {
+                bufferedWriter.write(page);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return this;
     }
 

@@ -4,8 +4,12 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.Parameter;
 import org.gametools.cleaner.actions.Action;
+import org.gametools.cleaner.actions.SubCommand;
 
+import java.util.Locale;
 import java.util.Map;
+
+import static org.gametools.cleaner.actions.SubCommand.*;
 
 class ArgsParser {
 
@@ -31,8 +35,13 @@ class ArgsParser {
         final Map<String, JCommander> commands = jc.getCommands();
         final JCommander get = commands.get("get");
 
-        get.addCommand("library", subcommandOptions, "libraries");
-        get.addCommand("app", subcommandOptions, "apps");
+        get.addCommand(name(LIBRARY), subcommandOptions, "libraries");
+        get.addCommand(name(APP), subcommandOptions, "apps");
+        get.addCommand(name(COMPATDATA), subcommandOptions, "compatdatas");
+    }
+
+    private static String name(SubCommand subCommand) {
+        return subCommand.name().toLowerCase(Locale.ENGLISH);
     }
 
     /**

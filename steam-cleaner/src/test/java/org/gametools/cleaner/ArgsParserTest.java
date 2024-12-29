@@ -71,14 +71,18 @@ class ArgsParserTest {
 
     private static Stream<Arguments> validCommands() {
         return Stream.of(
-            Arguments.of(toArray("get libraries"), action("get", "library")),
-            Arguments.of(toArray("get library"), action("get", "library")),
-            Arguments.of(toArray("get apps"), action("get", "app")),
-            Arguments.of(toArray("get app"), action("get", "app")),
             Arguments.of(toArray("get app 123"), action("get", "app", "123")),
-            Arguments.of(toArray("get library 123"), action("get", "library", "123")),
+            Arguments.of(toArray("get app"), action("get", "app")),
             Arguments.of(toArray("get apps 123"), action("get", "app", "123")),
-            Arguments.of(toArray("get libraries 123"), action("get", "library", "123"))
+            Arguments.of(toArray("get apps"), action("get", "app")),
+            Arguments.of(toArray("get compatdata 123"), action("get", "compatdata", "123")),
+            Arguments.of(toArray("get compatdata"), action("get", "compatdata")),
+            Arguments.of(toArray("get compatdatas 123"), action("get", "compatdata", "123")),
+            Arguments.of(toArray("get compatdatas"), action("get", "compatdata")),
+            Arguments.of(toArray("get libraries 123"), action("get", "library", "123")),
+            Arguments.of(toArray("get libraries"), action("get", "library")),
+            Arguments.of(toArray("get library 123"), action("get", "library", "123")),
+            Arguments.of(toArray("get library"), action("get", "library"))
         );
     }
 
