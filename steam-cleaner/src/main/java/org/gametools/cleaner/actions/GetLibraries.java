@@ -19,6 +19,7 @@ public class GetLibraries implements ActionRunner {
 
         if (drives.isEmpty()) {
             System.out.println("No libraries found");
+            System.exit(0);
         } else {
             System.out.println("Found: " + drives.size());
         }

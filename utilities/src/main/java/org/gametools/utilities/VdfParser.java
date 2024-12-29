@@ -60,8 +60,8 @@ public class VdfParser {
                         currentEntry.key = stripQuotes(line);
                     } else {
                         Pair split = splitQuotes(line);
-                        if (!split.value().isEmpty())
-                            currentEntry.properties.put(split.key(), split.value());
+                        if (!((String)split.value()).isEmpty())
+                            currentEntry.properties.put((String) split.key(), split.value());
                     }
                 }
                 lineIndex++;

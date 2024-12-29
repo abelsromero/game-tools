@@ -24,11 +24,7 @@ public class GetApps implements ActionRunner {
 
     @Override
     public void run() {
-        final Map<String, List<App>> installedApps = new HashMap<>();
-        for (StorageDrive drive : storageLocator.getDrives()) {
-            AppsRepository appsRepository = appsRepositoryFactory.apply(drive);
-            installedApps.put(drive.path(), appsRepository.getApps());
-        }
+        final Map<String, List<App>> installedApps = getInstalledApps();
 
         int count = installedApps.values().stream().map(List::size).reduce(0, Integer::sum);
         if (count == 0) {
@@ -44,8 +40,18 @@ public class GetApps implements ActionRunner {
             value.stream()
                 .sorted(Comparator.comparing(App::name))
                 .forEach(app -> {
-                    System.out.printf("%-10d %-10s%n", app.id(), app.name());
+                    app.printSummary();
                 });
         });
+    }
+
+    // TODO this should be part of AppsRepository ?
+    private Map<String, List<App>> getInstalledApps() {
+        final Map<String, List<App>> installedApps = new HashMap<>();
+        for (StorageDrive drive : storageLocator.getDrives()) {
+            AppsRepository appsRepository = appsRepositoryFactory.apply(drive);
+            installedApps.put(drive.path(), appsRepository.getApps());
+        }
+        return installedApps;
     }
 }
