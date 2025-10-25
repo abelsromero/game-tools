@@ -3,7 +3,7 @@ plugins {
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     // can't apply native plugin globally with version :)
 
     repositories {
@@ -16,11 +16,11 @@ subprojects {
         testImplementation 'org.assertj:assertj-core:3.27.6'
     }
 
-//    java {
-//        toolchain {
-//            languageVersion = JavaLanguageVersion.of(21)
-//        }
-//    }
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
 
     tasks.named('test') {
         useJUnitPlatform()
