@@ -4,6 +4,7 @@ import org.gametools.cleaner.App;
 import org.gametools.cleaner.StorageDrive;
 import org.gametools.testing.TestLibraryTemplate;
 import org.gametools.testing.TestResource;
+import org.gametools.utilities.ShortcutsReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import static org.gametools.cleaner.actions.Fakes.*;
 class GetCompatdatasTest {
 
     private OutputHandler output;
+
+    private final  ShortcutsReader shortcutsReader =  new ShortcutsReader();
 
     @BeforeEach
     void beforeEach() {
@@ -49,7 +52,7 @@ class GetCompatdatasTest {
             new StorageDrive("0", storeDrive1.root()),
             new StorageDrive("1", storeDrive2.root())
         ));
-        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var actionRunner = new GetCompatdatas(shortcutsReader, fakeStorageLocator, it -> fakeAppsRepository(apps));
 
         actionRunner.run();
 
@@ -58,14 +61,14 @@ class GetCompatdatasTest {
         assertThat(lines[0]).isEmpty();
         assertThat(lines[1]).matches("= Library /tmp/game-tools-\\d+");
         assertThat(lines[2]).startsWith("1          Game-01");
-        assertThat(lines[3]).startsWith("2          (uninstalled)   0 MB");
-        assertThat(lines[4]).startsWith("3          (uninstalled)   0 MB");
+        assertThat(lines[3]).startsWith("2          (uninstalled)             0 MB");
+        assertThat(lines[4]).startsWith("3          (uninstalled)             0 MB");
         assertThat(lines[5]).startsWith("4          Game-04");
         assertThat(lines[6]).isEmpty();
         assertThat(lines[7]).matches("= Library /tmp/game-tools-\\d+");
         assertThat(lines[8]).startsWith("5          Game-05");
-        assertThat(lines[9]).startsWith("6          (uninstalled)   0 MB");
-        assertThat(lines[10]).startsWith("7          (uninstalled)   0 MB");
+        assertThat(lines[9]).startsWith("6          (uninstalled)             0 MB");
+        assertThat(lines[10]).startsWith("7          (uninstalled)             0 MB");
         assertThat(lines[11]).startsWith("8          Game-08");
         assertThat(lines).hasSize(12);
     }
@@ -82,15 +85,15 @@ class GetCompatdatasTest {
         final var fakeStorageLocator = fakeStorageLocator(List.of(
             new StorageDrive("0", storeDrive1.root())
         ));
-        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var actionRunner = new GetCompatdatas(shortcutsReader, fakeStorageLocator, it -> fakeAppsRepository(apps));
         actionRunner.run();
 
         final String output = this.output.getOutput();
         final String[] lines = output.split("\n");
         assertThat(lines[0]).isEmpty();
         assertThat(lines[1]).matches("= Library /tmp/game-tools-\\d+");
-        assertThat(lines[2]).startsWith("1          (uninstalled)   2 MB");
-        assertThat(lines[3]).startsWith("2          (uninstalled)   3 MB");
+        assertThat(lines[2]).startsWith("1          (uninstalled)             2 MB");
+        assertThat(lines[3]).startsWith("2          (uninstalled)             3 MB");
         assertThat(lines).hasSize(4);
     }
 
@@ -98,7 +101,7 @@ class GetCompatdatasTest {
     void should_return_zero_libraries() {
         final List<App> apps = List.of();
         final var fakeStorageLocator = fakeStorageLocator(List.of());
-        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var actionRunner = new GetCompatdatas(shortcutsReader, fakeStorageLocator, it -> fakeAppsRepository(apps));
 
         actionRunner.run();
 
@@ -111,7 +114,7 @@ class GetCompatdatasTest {
     void should_return_comptdata_not_found() {
         final List<App> apps = List.of();
         final var fakeStorageLocator = fakeStorageLocator(List.of());
-        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var actionRunner = new GetCompatdatas(shortcutsReader, fakeStorageLocator, it -> fakeAppsRepository(apps));
 
         actionRunner.run();
 
@@ -126,7 +129,7 @@ class GetCompatdatasTest {
         final var fakeStorageLocator = fakeStorageLocator(List.of(
             new StorageDrive("0", storeDrive1.root())
         ));
-        final var actionRunner = new GetCompatdatas(fakeStorageLocator, it -> fakeAppsRepository(apps));
+        final var actionRunner = new GetCompatdatas(shortcutsReader, fakeStorageLocator, it -> fakeAppsRepository(apps));
 
         actionRunner.run();
 

@@ -4,7 +4,7 @@ import org.gametools.utilities.FileUtils;
 
 import java.nio.file.Path;
 
-public record App(Integer id, String name, String installDir) {
+public record App(Long id, String name, String installDir) {
 
     public void printSummary() {
         System.out.printf("%-10d %-10s%n", id, name);

@@ -37,7 +37,7 @@ class GetAppTest {
             new StorageDrive("1", storeDrive2.root())
         ));
 
-        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
+        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1L);
 
         actionRunner.run();
 
@@ -69,7 +69,7 @@ class GetAppTest {
             new StorageDrive("1", "/mount/other/games")
         ));
 
-        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1);
+        final ActionRunner actionRunner = new GetApp(fakeStorageLocator, it -> fakeAppsRepository(apps), 1L);
 
         actionRunner.run();
 
