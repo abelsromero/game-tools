@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation project(':utilities')
-    implementation 'org.jcommander:jcommander:2.0'
+    implementation 'org.jcommander:jcommander:3.0'
 
     testImplementation project(':test-resources')
 }
