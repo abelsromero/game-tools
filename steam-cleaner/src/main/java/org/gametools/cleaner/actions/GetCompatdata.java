@@ -20,11 +20,11 @@ public class GetCompatdata implements ActionRunner {
 
     private final StorageLocator storageLocator;
     private final Function<StorageDrive, AppsRepository> appsRepositoryFactory;
-    private final Integer instanceId;
+    private final Long instanceId;
 
     public GetCompatdata(StorageLocator storageLocator,
                          Function<StorageDrive, AppsRepository> appsRepositoryFactory,
-                         Integer instanceId) {
+                         Long instanceId) {
         this.storageLocator = storageLocator;
         this.appsRepositoryFactory = appsRepositoryFactory;
         this.instanceId = instanceId;
@@ -32,7 +32,7 @@ public class GetCompatdata implements ActionRunner {
 
     @Override
     public void run() {
-        final Map<Integer, App> installedApps = getInstalledApps();
+        final Map<Long, App> installedApps = getInstalledApps();
 
         for (StorageDrive drive : storageLocator.getDrives()) {
             try {
@@ -45,7 +45,7 @@ public class GetCompatdata implements ActionRunner {
                     .findFirst();
 
                 if (first.isPresent()) {
-                    int appId = (int) first.get().key();
+                    long appId = (long) first.get().key();
                     App app = installedApps.get(appId);
                     if (app != null) {
                         app.printDetails(drive);
@@ -53,7 +53,7 @@ public class GetCompatdata implements ActionRunner {
                         System.out.printf("%-11s %d%n", "Id:", appId);
                         System.out.printf("%-11s %s%n", "Name:", "(unknown)");
                         System.out.printf("%-11s %s%n", "Location:", "(unknown)");
-                        System.out.printf("%-11s %s/%s (%s)%n", "Compatdata:", compatdataPath, appId, FileUtils.sizeFormatted(Path.of(compatdataPath, Integer.toString(appId))));
+                        System.out.printf("%-11s %s/%s (%s)%n", "Compatdata:", compatdataPath, appId, FileUtils.sizeFormatted(Path.of(compatdataPath, Long.toString(appId))));
                     }
                     return;
                 }
@@ -65,8 +65,8 @@ public class GetCompatdata implements ActionRunner {
     }
 
     // TODO this should be part of AppsRepository ?
-    private Map<Integer, App> getInstalledApps() {
-        final Map<Integer, App> installedApps = new HashMap<>();
+    private Map<Long, App> getInstalledApps() {
+        final Map<Long, App> installedApps = new HashMap<>();
         for (StorageDrive drive : storageLocator.getDrives()) {
             AppsRepository appsRepository = appsRepositoryFactory.apply(drive);
             for (App app : appsRepository.getApps()) {
@@ -76,8 +76,8 @@ public class GetCompatdata implements ActionRunner {
         return installedApps;
     }
 
-    private static int extractId(Path path) {
-        return Integer.parseInt(path.getFileName().toString());
+    private static long extractId(Path path) {
+        return Long.parseLong(path.getFileName().toString());
     }
 
 }

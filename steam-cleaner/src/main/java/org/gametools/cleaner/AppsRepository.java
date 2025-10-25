@@ -36,7 +36,8 @@ public class AppsRepository {
             .toList();
     }
 
-    public Optional<App> getApp(Integer appId) {
+    // Longs are only for non-steam apps, but let's keep all aligned
+    public Optional<App> getApp(Long appId) {
         final VdfParser parser = new VdfParser();
 
         return installedAppsManifests()
@@ -55,8 +56,8 @@ public class AppsRepository {
         );
     }
 
-    private static Integer extractAppId(Map<String, String> properties) {
-        return Integer.valueOf(properties.get("appid"));
+    private static Long extractAppId(Map<String, String> properties) {
+        return Long.valueOf(properties.get("appid"));
     }
 
     private Stream<Path> installedAppsManifests() {

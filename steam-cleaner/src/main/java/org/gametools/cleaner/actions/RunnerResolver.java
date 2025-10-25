@@ -3,6 +3,7 @@ package org.gametools.cleaner.actions;
 import org.gametools.cleaner.AppsRepository;
 import org.gametools.cleaner.StorageDrive;
 import org.gametools.cleaner.StorageLocator;
+import org.gametools.utilities.ShortcutsReader;
 import org.gametools.utilities.SteamPaths;
 
 import java.util.function.Function;
@@ -33,7 +34,9 @@ public class RunnerResolver {
 
     private ActionRunner buildGetCompatdatasActionRunner(Action action) {
         if (action.instanceId() == null) {
-            return new GetCompatdatas(Factories.getStorageLocator(),
+            return new GetCompatdatas(
+                Factories.getShortcutsReader(),
+                Factories.getStorageLocator(),
                 Factories.getAppsRepositoryFactory());
         } else {
             return new GetCompatdata(Factories.getStorageLocator(),
@@ -42,11 +45,15 @@ public class RunnerResolver {
         }
     }
 
-    private static Integer mapId(String id) {
-        return Integer.valueOf(id);
+    private static Long mapId(String id) {
+        return Long.valueOf(id);
     }
 
     private final class Factories {
+
+        private static ShortcutsReader getShortcutsReader() {
+            return new ShortcutsReader();
+        }
 
         private static StorageLocator getStorageLocator() {
             return new StorageLocator(SteamPaths.libraryFolders().toString());
