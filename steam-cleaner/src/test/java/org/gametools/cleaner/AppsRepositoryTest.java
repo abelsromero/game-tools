@@ -20,13 +20,13 @@ class AppsRepositoryTest {
         List<App> apps = repository.getApps();
 
         assertThat(apps).containsExactlyInAnyOrder(
-            new App(1070560, "Steam Linux Runtime 1.0 (scout)", "SteamLinuxRuntime"),
-            new App(1887720, "Proton 7.0", "Proton 7.0"),
-            new App(208580, "STAR WARS™ Knights of the Old Republic™ II: The Sith Lords™", "Knights of the Old Republic II"),
-            new App(220, "Half-Life 2", "Half-Life 2"),
-            new App(2348590, "Proton 8.0", "Proton 8.0"),
-            new App(2373630, "Moonring", "Moonring"),
-            new App(578650, "The Outer Worlds", "TheOuterWorlds")
+            new App(1070560L, "Steam Linux Runtime 1.0 (scout)", "SteamLinuxRuntime"),
+            new App(1887720L, "Proton 7.0", "Proton 7.0"),
+            new App(208580L, "STAR WARS™ Knights of the Old Republic™ II: The Sith Lords™", "Knights of the Old Republic II"),
+            new App(220L, "Half-Life 2", "Half-Life 2"),
+            new App(2348590L, "Proton 8.0", "Proton 8.0"),
+            new App(2373630L, "Moonring", "Moonring"),
+            new App(578650L, "The Outer Worlds", "TheOuterWorlds")
         );
     }
 
@@ -35,11 +35,11 @@ class AppsRepositoryTest {
         final String storageDrive = TestResource.fromFile("steam-drive");
         final AppsRepository repository = new AppsRepository(storageDrive);
 
-        Optional<App> app = repository.getApp(2373630);
+        Optional<App> app = repository.getApp(2373630L);
 
         assertThat(app)
             .get()
-            .isEqualTo(new App(2373630, "Moonring", "Moonring"));
+            .isEqualTo(new App(2373630L, "Moonring", "Moonring"));
     }
 
     @Test
@@ -47,7 +47,7 @@ class AppsRepositoryTest {
         final String storageDrive = TestResource.fromFile("steam-drive");
         final AppsRepository repository = new AppsRepository(storageDrive);
 
-        Optional<App> app = repository.getApp(1234567890);
+        Optional<App> app = repository.getApp(1234567890L);
 
         assertThat(app).isEmpty();
     }

@@ -40,7 +40,7 @@ class GetCompatdataTest {
 
         final ActionRunner actionRunner = new GetCompatdata(fakeStorageLocator,
             it -> fakeAppsRepository(apps),
-            1);
+            1L);
 
         actionRunner.run();
 
@@ -68,7 +68,7 @@ class GetCompatdataTest {
 
         final ActionRunner actionRunner = new GetCompatdata(fakeStorageLocator,
             it -> fakeAppsRepository(apps),
-            1);
+            1L);
 
         actionRunner.run();
 
@@ -92,7 +92,7 @@ class GetCompatdataTest {
 
         final ActionRunner actionRunner = new GetCompatdata(fakeStorageLocator,
             it -> fakeAppsRepository(apps),
-            1);
+            1L);
 
         actionRunner.run();
 

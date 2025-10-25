@@ -25,13 +25,13 @@ class Fakes {
                 return expected;
             }
 
-            public Optional<App> getApp(Integer appId) {
+            public Optional<App> getApp(Long appId) {
                 return expected.stream().filter(app -> app.id().equals(appId)).findFirst();
             }
         };
     }
 
-    static App app(int id) {
+    static App app(long id) {
         return new App(id, "Game-0" + id, "path/game/0" + id);
     }
 
