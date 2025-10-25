@@ -1,5 +1,10 @@
-include(
-    'steam-cleaner',
-    'test-resources',
-    'utilities'
-)
+pluginManagement {
+    plugins {
+        id 'org.graalvm.buildtools.native' version '0.10.6'
+    }
+}
+
+
+include'steam-cleaner'
+include 'test-resources'
+include 'utilities'

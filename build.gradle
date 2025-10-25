@@ -4,7 +4,6 @@ plugins {
 
 subprojects {
     apply plugin: 'java-library'
-    // can't apply native plugin globally with version :)
 
     repositories {
         mavenCentral()
