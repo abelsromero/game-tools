@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '24'
+          java-version: '25'
       - name: Gradle build
         run: ./gradlew test --no-daemon
   build-native:
@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 1
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '24.0.2'
+          java-version: '25.0.1'
           distribution: 'graalvm-community'
       - name: Gradle native test
         run: ./gradlew nativeTest --no-daemon
