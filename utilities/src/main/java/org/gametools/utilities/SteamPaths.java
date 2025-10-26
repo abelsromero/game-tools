@@ -1,5 +1,6 @@
 package org.gametools.utilities;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,9 +16,12 @@ public class SteamPaths {
         return home().resolve(DEFAULT_INSTALLATION).resolve(LIBRARY_FOLDERS);
     }
 
-    public static Path userData() {
+    public static Path userData() throws FileNotFoundException {
         // Ask user id as input
         Path userData = home().resolve(USER_DATA);
+        if (!Files.exists(userData)) {
+            throw new FileNotFoundException(userData.toString());
+        }
         try {
             return Files.list(userData)
                 .filter(Files::isDirectory)

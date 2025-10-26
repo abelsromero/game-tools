@@ -9,6 +9,7 @@ import org.gametools.utilities.Shortcut;
 import org.gametools.utilities.ShortcutsReader;
 import org.gametools.utilities.SteamPaths;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +36,7 @@ public class GetCompatdatas implements ActionRunner {
     @Override
     public void run() {
         final Map<Long, App> installedApps = getInstalledApps();
-        final List<Shortcut> shortcuts = shortcutsReader.read(SteamPaths.userData().resolve("config"));
+        final List<Shortcut> shortcuts = getShortcutsOrEmpty();
 
         storageLocator.getDrives()
             .forEach(drive -> {
@@ -68,6 +69,17 @@ public class GetCompatdatas implements ActionRunner {
                     throw new RuntimeException(e);
                 }
             });
+    }
+
+    /**
+     * Returns found shortcuts or 0 if steam data does not exist.
+     */
+    private List<Shortcut> getShortcutsOrEmpty() {
+        try {
+            return shortcutsReader.read(SteamPaths.userData().resolve("config"));
+        } catch (FileNotFoundException e) {
+            return Collections.emptyList();
+        }
     }
 
     // TODO this should be part of AppsRepository ?
