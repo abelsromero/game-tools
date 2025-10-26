@@ -18,6 +18,7 @@ graalvmNative {
     binaries {
         main {
             mainClass = application.mainClass
+            sharedLibrary = false
         }
     }
 }

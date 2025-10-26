@@ -23,6 +23,12 @@ jobs:
           java-version: '25'
       - name: Gradle build
         run: ./gradlew test --no-daemon
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: steam-cleaner-reports
+          path: steam-cleaner/build/reports/*
   build-native:
     runs-on: ubuntu-latest
     steps:
@@ -38,3 +44,9 @@ jobs:
         run: ./gradlew nativeTest --no-daemon
       - name: Gradle native test
         run: ./gradlew :steam-cleaner:nativeCompile --no-daemon
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: steam-cleaner-reports-native
+          path: steam-cleaner/build/reports/*
