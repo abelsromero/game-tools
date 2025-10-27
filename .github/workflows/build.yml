@@ -24,7 +24,7 @@ jobs:
       - name: Gradle build
         run: ./gradlew test --no-daemon
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: steam-cleaner-reports
@@ -45,7 +45,7 @@ jobs:
       - name: Gradle native test
         run: ./gradlew :steam-cleaner:nativeCompile --no-daemon
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: steam-cleaner-reports-native
