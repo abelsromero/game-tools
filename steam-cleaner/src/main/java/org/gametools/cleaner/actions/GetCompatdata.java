@@ -40,7 +40,7 @@ public class GetCompatdata implements ActionRunner {
                 Optional<Pair> first = Files.list(Path.of(compatdataPath))
                     .filter(Files::isDirectory)
                     .map(path -> new Pair(extractId(path), path))
-                    .sorted(Comparator.comparingInt(value -> (int) value.key()))
+                    .sorted(Comparator.comparingLong(value -> (long) value.key()))
                     .filter(pair -> pair.key().equals(instanceId))
                     .findFirst();
 

@@ -42,6 +42,7 @@ class GetCompatdatasTest {
             .addCompadata(2)
             .addCompadata(3)
             .addCompadata(4)
+            .addCompadata(3220786862L)
             .get();
         final var storeDrive2 = new TestLibraryTemplate(TestResource.fromFile("steam-drive"))
             .create()

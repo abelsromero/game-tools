@@ -37,13 +37,13 @@ public class TestLibraryTemplate {
         }
     }
 
-    public TestLibraryTemplate addCompadata(int appId) {
-        createDirectory(targetCompatdata, Integer.toString(appId));
+    public TestLibraryTemplate addCompadata(long appId) {
+        createDirectory(targetCompatdata, Long.toString(appId));
         return this;
     }
 
-    public TestLibraryTemplate addCompadata(int appId, Integer fileSizeInMb) {
-        Path directory = createDirectory(targetCompatdata, Integer.toString(appId));
+    public TestLibraryTemplate addCompadata(long appId, Integer fileSizeInMb) {
+        Path directory = createDirectory(targetCompatdata, Long.toString(appId));
 
         try {
             Path file = Files.createFile(directory.resolve("fake.file"));
