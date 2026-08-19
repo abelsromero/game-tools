@@ -4,7 +4,6 @@
 
 ** default location: $HOME/.local/share/Steam
 ** {storage}/steamapps/libraryfolders.vdf: metadata for folders ("path")
-/media/cmp600pro1/games/steam
 
 * Game paths:
 
